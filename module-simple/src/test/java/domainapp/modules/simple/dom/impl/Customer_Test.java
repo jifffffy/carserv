@@ -14,29 +14,37 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package domainapp.application.bdd.specs;
+package domainapp.modules.simple.dom.impl;
 
-import org.junit.runner.RunWith;
+import org.junit.Before;
+import org.junit.Test;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
+import domainapp.modules.simple.dom.impl.customer.Customer;
+import static org.assertj.core.api.Assertions.assertThat;
 
+public class Customer_Test {
 
-/**
- * Runs scenarios in all <tt>.feature</tt> files (this package and any subpackages). 
- */
-@RunWith(Cucumber.class)
-@CucumberOptions(
-        format = {
-                "html:target/cucumber-html-report"
-                ,"json:target/cucumber.json"
-        },
-        glue={
-                "classpath:domainapp.application.bdd.specglue",
-                "classpath:domainapp.modules.simple.specglue"
-        },
-        strict = true,
-        tags = { "~@backlog", "~@ignore" })
-public class RunIntegBddSpecs {
-    // intentionally empty 
+    Customer customer;
+
+    @Before
+    public void setUp() throws Exception {
+        customer = new Customer("Foobar");
+    }
+
+    public static class Name extends Customer_Test {
+
+        @Test
+        public void happyCase() throws Exception {
+            // given
+            assertThat(customer.getFirstName()).isEqualTo("Foobar");
+
+            // when
+            String name = "Foobar - updated";
+            customer.setFirstName(name);
+
+            // then
+            assertThat(customer.getFirstName()).isEqualTo(name);
+        }
+    }
+
 }

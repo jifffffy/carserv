@@ -17,20 +17,33 @@
  *  under the License.
  */
 
-package domainapp.modules.simple.fixture.teardown;
+package domainapp.modules.simple.fixture.scenario;
 
-import org.apache.isis.applib.fixturescripts.FixtureScript;
-import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
+import domainapp.modules.simple.dom.impl.customer.Customer;
+import domainapp.modules.simple.dom.impl.customer.CustomerMenu;
+import lombok.AllArgsConstructor;
 
-public class SimpleModuleTearDown extends FixtureScript {
+@AllArgsConstructor
+public enum CustomerData {
 
-    @Override
-    protected void execute(ExecutionContext executionContext) {
-        isisJdoSupport.executeUpdate("delete from \"simple\".\"SimpleObject\"");
+    FOO("Foo"),
+    BAR("Bar"),
+    BAZ("Baz"),
+    FRODO("Frodo"),
+    FROYO("Froyo"),
+    FIZZ("Fizz"),
+    BIP("Bip"),
+    BOP("Bop"),
+    BANG("Bang"),
+    BOO("Boo");
+
+    private final String name;
+
+    public Customer createWith(final CustomerMenu menu) {
+        return menu.create(name);
     }
 
-
-    @javax.inject.Inject
-    private IsisJdoSupport isisJdoSupport;
-
+    public Customer findWith(final CustomerMenu menu) {
+        return menu.findByFirstName(name).get(0);
+    }
 }
