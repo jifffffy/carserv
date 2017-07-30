@@ -1,12 +1,10 @@
-package domainapp.modules.simple.dom.impl.car;
+package domainapp.modules.simple.dom.impl.vehicle;
+
+import java.util.Locale;
 
 import org.apache.isis.applib.annotation.*;
 
-import javax.jdo.annotations.*;
-
 import domainapp.modules.simple.dom.impl.customer.Customer;
-import lombok.Getter;
-import lombok.Setter;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
@@ -27,10 +25,30 @@ public class CarMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "1")
-    public java.util.List<Car> listAll() {
-        return carrepository.listAll();
+    public java.util.List<Car> allCars() {
+        return carrepository.allCars();
     }
 
+    @Action(
+            semantics = SemanticsOf.SAFE,
+            restrictTo = RestrictTo.PROTOTYPING
+    )
+    @MemberOrder(sequence = "3")
+    public Car newCar(String registrationNumber) {
+        return carrepository.newCar(registrationNumber);
+    }
+
+    public String validate0NewCar(String registrationNumber) {
+        if (registrationNumber == null) return null;
+        String country = Locale.getDefault().getCountry();
+        int length = registrationNumber.length();
+        if ( ( "US" .equals(country) && length > 7) ||
+                ( "GB" .equals(country) && length > 7 ) ||
+                length > 12) { // everywhere else
+            return "Registration number is too long" ;
+        }
+        return null;
+    }
 
     @javax.inject.Inject
     CarRepository carrepository;

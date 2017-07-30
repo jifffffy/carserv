@@ -1,52 +1,42 @@
 package domainapp.modules.simple.dom.impl.service;
 
+import java.sql.Date;
+
 import org.apache.isis.applib.annotation.*;
 
-import javax.jdo.annotations.*;
-
-import lombok.Getter;
-import lombok.Setter;
-
-@org.apache.isis.applib.annotation.DomainService(
-        nature = org.apache.isis.applib.annotation.NatureOfService.VIEW_MENU_ONLY
+@DomainService(
+        nature = NatureOfService.VIEW_MENU_ONLY,
+        objectType = "ServiceMenu",
+        repositoryFor = Service.class
 )
-@org.apache.isis.applib.annotation.DomainServiceLayout(
+@DomainServiceLayout(
         named = "Services",
         menuOrder = "10"
 )
 public class ServiceMenu {
 
-    @org.apache.isis.applib.annotation.Action(
-            semantics = org.apache.isis.applib.annotation.SemanticsOf.SAFE,
-            restrictTo = org.apache.isis.applib.annotation.RestrictTo.PROTOTYPING
+    @Action(
+            semantics = SemanticsOf.SAFE,
+            restrictTo = RestrictTo.PROTOTYPING
     )
-    @org.apache.isis.applib.annotation.ActionLayout(
-            bookmarking = org.apache.isis.applib.annotation.BookmarkPolicy.AS_ROOT
+    @ActionLayout(
+            bookmarking = BookmarkPolicy.AS_ROOT
     )
-    @org.apache.isis.applib.annotation.MemberOrder(sequence = "1")
+    @MemberOrder(sequence = "1")
     public java.util.List<Service> listAll() {
         return servicerepository.listAll();
     }
 
-    @org.apache.isis.applib.annotation.Action(
-            semantics = org.apache.isis.applib.annotation.SemanticsOf.SAFE
+    @Action(
+            semantics = SemanticsOf.SAFE,
+            restrictTo = RestrictTo.PROTOTYPING
     )
-    @org.apache.isis.applib.annotation.ActionLayout(
+    @ActionLayout(
             bookmarking = BookmarkPolicy.AS_ROOT
     )
-    @org.apache.isis.applib.annotation.MemberOrder(sequence = "2")
-    public java.util.List<Service> findByName(
-            final String name
-    ) {
-        return servicerepository.findByNameContains(name);
-    }
-
-    @org.apache.isis.applib.annotation.Action(
-    )
-    @org.apache.isis.applib.annotation.MemberOrder(sequence = "3")
-    public Service create(
-            final String name) {
-        return servicerepository.create(name);
+    @MemberOrder(sequence = "2")
+    public Service newService(Date bookedIn, Date estimatedReady){
+        return servicerepository.newService(bookedIn, estimatedReady);
     }
 
     @javax.inject.Inject

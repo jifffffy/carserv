@@ -22,8 +22,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import domainapp.modules.simple.fixture.scenario.CreateCustomers;
-
 /**
  * Run the app but without setting up any fixtures.
  */
@@ -34,7 +32,7 @@ public class DomainAppAppManifestWithFixtures extends DomainAppAppManifest {
     }
 
     public DomainAppAppManifestWithFixtures(final String authMechanism) {
-        super((List)Lists.newArrayList(CreateCustomers.class), authMechanism, null);
+        super((List)Lists.newArrayList(), authMechanism, null);
     }
 
 }

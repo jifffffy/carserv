@@ -23,4 +23,8 @@
 
     <persistence-unit name="customer">
     </persistence-unit>
+    <persistence-unit name="car">
+    </persistence-unit>
+    <persistence-unit name="service">
+    </persistence-unit>
 </persistence>

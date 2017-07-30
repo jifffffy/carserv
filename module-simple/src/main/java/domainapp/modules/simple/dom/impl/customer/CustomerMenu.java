@@ -1,5 +1,7 @@
 package domainapp.modules.simple.dom.impl.customer;
 
+import java.util.List;
+
 import org.apache.isis.applib.annotation.*;
 
 @DomainService(
@@ -13,6 +15,22 @@ import org.apache.isis.applib.annotation.*;
 )
 public class CustomerMenu {
 
+    /*
+
+        @Action(
+                semantics = SemanticsOf.SAFE
+        )
+        @ActionLayout(
+                bookmarking = BookmarkPolicy.AS_ROOT
+        )
+        @MemberOrder(sequence = "2")
+        public java.util.List<Customer> findByFirstName(
+                final String firstName
+        ) {
+            return customerrepository.findByFirstNameContains(firstName);
+        }
+
+        */
     @Action(
             semantics = SemanticsOf.SAFE,
             restrictTo = RestrictTo.PROTOTYPING
@@ -21,29 +39,24 @@ public class CustomerMenu {
             bookmarking = BookmarkPolicy.AS_ROOT
     )
     @MemberOrder(sequence = "1")
-    public java.util.List<Customer> listAll() {
-        return customerrepository.listAll();
+    public List<Customer> allCustomers() {
+        return customerrepository.allCustomers();
     }
 
     @Action(
-            semantics = SemanticsOf.SAFE
-    )
-    @ActionLayout(
-            bookmarking = BookmarkPolicy.AS_ROOT
-    )
-    @MemberOrder(sequence = "2")
-    public java.util.List<Customer> findByFirstName(
-            final String firstName
-    ) {
-        return customerrepository.findByFirstNameContains(firstName);
-    }
-
-    @Action(
+            semantics = SemanticsOf.SAFE,
+            restrictTo = RestrictTo.PROTOTYPING
     )
     @MemberOrder(sequence = "3")
-    public Customer create(
-            final String firstName) {
-        return customerrepository.create(firstName);
+    public Customer newCustomer(
+            @Parameter(maxLength = 10)
+            @ParameterLayout(named = "First Name")
+                    String firstName,
+            @Parameter(maxLength = 10)
+            @ParameterLayout(named = "Last Name")
+                    String lastName
+    ) {
+        return customerrepository.newCustomer(firstName, lastName);
     }
 
     @javax.inject.Inject

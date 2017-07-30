@@ -38,7 +38,7 @@ public class HomePageViewModel {
     }
 
     public List<Customer> getObjects() {
-        return customerRepository.listAll();
+        return customerRepository.allCustomers();
     }
 
     @javax.inject.Inject
